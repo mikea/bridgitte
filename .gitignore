@@ -1,0 +1,6 @@
+/target
+perf.data
+perf.data.*
+callgrind.out.*
+cachegrind.out.*
+trace

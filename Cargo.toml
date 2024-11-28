@@ -1,0 +1,20 @@
+[package]
+name = "bridgitte"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+static_assertions = "1"
+scopeguard = "1"
+quick_cache = "0"
+clap = { version = "4", features = ["derive"] }
+regex = "1"
+rayon = "1"
+ratatui = "0"
+rand = "0.8.5"
+
+[profile.release]
+# gives ~3% boost
+codegen-units = 1
+# debug symbols for profiling
+debug = 2
