@@ -1,7 +1,8 @@
 use std::{
     cmp::{max, min},
     collections::HashMap,
-    hash::Hash, str::FromStr,
+    hash::Hash,
+    str::FromStr,
 };
 
 use rand::seq::SliceRandom;
@@ -34,7 +35,7 @@ impl AB {
     fn intersects(self, other: AB) -> bool {
         max(self.a, other.a) <= min(self.b, other.b)
     }
-    
+
     #[must_use]
     pub fn contains(&self, x: u8) -> bool {
         x >= self.a && x <= self.b
@@ -82,12 +83,16 @@ impl From<&Deal> for Distr {
         let h = (deal & CardSet::H).count();
         let s = (deal & CardSet::S).count();
 
-        let c = u64::from(c[3]) | u64::from(c[2]) << 4 | u64::from(c[1]) << 8 | u64::from(c[0]) << 12;
-        let d = u64::from(d[3]) | u64::from(d[2]) << 4 | u64::from(d[1]) << 8 | u64::from(d[0]) << 12;
-        let h = u64::from(h[3]) | u64::from(h[2]) << 4 | u64::from(h[1]) << 8 | u64::from(h[0]) << 12;
-        let s = u64::from(s[3]) | u64::from(s[2]) << 4 | u64::from(s[1]) << 8 | u64::from(s[0]) << 12;
+        let c =
+            u64::from(c[3]) | u64::from(c[2]) << 4 | u64::from(c[1]) << 8 | u64::from(c[0]) << 12;
+        let d =
+            u64::from(d[3]) | u64::from(d[2]) << 4 | u64::from(d[1]) << 8 | u64::from(d[0]) << 12;
+        let h =
+            u64::from(h[3]) | u64::from(h[2]) << 4 | u64::from(h[1]) << 8 | u64::from(h[0]) << 12;
+        let s =
+            u64::from(s[3]) | u64::from(s[2]) << 4 | u64::from(s[1]) << 8 | u64::from(s[0]) << 12;
 
-        let distr = (c) | (d) << 16 | (h) << 32 | (s) << 48;    
+        let distr = (c) | (d) << 16 | (h) << 32 | (s) << 48;
         Distr { distr }
     }
 }
@@ -98,7 +103,7 @@ impl FromStr for Distr {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let re = Regex::new(r"(.*)\.(.*)\.(.*)\.(.*)").unwrap();
 
-        let players:Vec<_> = s.split(' ').collect();
+        let players: Vec<_> = s.split(' ').collect();
         if players.len() != 4 {
             return Err(format!("bad input: {s}"));
         }
@@ -113,13 +118,13 @@ impl FromStr for Distr {
                 return Err(format!("bad input: {}", players[i]));
             };
             let (_, [s1, h1, d1, c1]) = captures.extract();
-            c |= (c1.len() as u64) << ((3 - i)*4);
-            d |= (d1.len() as u64) << ((3 - i)*4);
-            h |= (h1.len() as u64) << ((3 - i)*4);
-            s |= (s1.len() as u64) << ((3 - i)*4);
+            c |= (c1.len() as u64) << ((3 - i) * 4);
+            d |= (d1.len() as u64) << ((3 - i) * 4);
+            h |= (h1.len() as u64) << ((3 - i) * 4);
+            s |= (s1.len() as u64) << ((3 - i) * 4);
         }
 
-        let distr = (c) | (d) << 16 | (h) << 32 | (s) << 48;    
+        let distr = (c) | (d) << 16 | (h) << 32 | (s) << 48;
         Ok(Distr { distr })
     }
 }
@@ -188,12 +193,12 @@ impl Pattern {
         let mut card_map = CardMap::default();
         deal.promote_all(&mut card_map)
     }
-    
+
     #[must_use]
     pub fn next(&self) -> Player {
         self.key.next
     }
-    
+
     #[must_use]
     pub fn ab(&self) -> AB {
         self.entry.ab
@@ -215,7 +220,13 @@ impl FromStr for Pattern {
         let mask = deal.replace('x', "");
         let mask = Deal::try_from_pbn(&mask)?;
         let distr = Distr::from_str(deal)?;
-        Ok(Pattern { key: Key { distr, next }, entry: Entry{ mask, ab: AB { a, b }} })
+        Ok(Pattern {
+            key: Key { distr, next },
+            entry: Entry {
+                mask,
+                ab: AB { a, b },
+            },
+        })
     }
 }
 
@@ -244,7 +255,7 @@ impl TransTable for UnsyncTable {
                         "inconsistent entries:\n    {:?} {} = {:?}\n  vs\n    {:?} {} = {:?}\n  deal = {deal:?}", 
                         state.next,
                         deal.format_bpn_masked(entry.mask.present()),
-                        entry.ab, 
+                        entry.ab,
                         state.next,
                         deal.format_bpn_masked(prev_result.0),
                         prev_result.1,
@@ -271,10 +282,7 @@ impl TransTable for UnsyncTable {
         let deal = &state.deal;
         let deal = deal & rel_mask;
         debug_assert_eq!(deal.present(), rel_mask);
-        let new_entry = Entry {
-            mask: deal,
-            ab,
-        };
+        let new_entry = Entry { mask: deal, ab };
         let Some(entries) = self.cache.get_mut(&key) else {
             let entries = vec![new_entry];
             self.cache.insert(key, entries);

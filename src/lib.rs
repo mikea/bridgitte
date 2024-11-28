@@ -10,11 +10,11 @@ pub use play::*;
 pub mod analyze;
 mod bits;
 pub mod counter;
+pub mod minmax;
 pub mod observers;
 pub mod search;
 pub mod trans_table;
 mod ui;
-pub mod minmax;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 #[repr(u8)]

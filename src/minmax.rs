@@ -1,4 +1,6 @@
-use crate::{CardMap, Deal, Pair, PlayOfCards, PlayState, PlayedCardsNT, PlayedCardsT, Player, Suit, Trick};
+use crate::{
+    CardMap, Deal, Pair, PlayOfCards, PlayState, PlayedCardsNT, PlayedCardsT, Player, Suit, Trick,
+};
 
 pub(crate) trait Lattice<T> {
     fn bottom() -> T;
@@ -103,16 +105,14 @@ mod tests {
 
     #[test]
     fn small_deal_4() {
-        let deal = Deal::try_from_pbn("A.KQ9.. .J.K.KQ K.T8..J .A.A.AT")
-        .unwrap();
+        let deal = Deal::try_from_pbn("A.KQ9.. .J.K.KQ K.T8..J .A.A.AT").unwrap();
         let tricks = minmax(&deal, Some(Suit::S), Player::S);
         assert_eq!(1, tricks);
     }
 
     #[test]
     fn small_deal_5() {
-        let deal = Deal::try_from_pbn(".KQT.. .J..KQ A.9..J .A..AT")
-        .unwrap();
+        let deal = Deal::try_from_pbn(".KQT.. .J..KQ A.9..J .A..AT").unwrap();
         let tricks = minmax(&deal, Some(Suit::S), Player::W);
         assert_eq!(2, tricks);
     }

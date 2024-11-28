@@ -344,14 +344,16 @@ impl Observer for Dot {
                 &state.deal.format_as_bpn()
             )
             .unwrap();
-            writeln!(self.writer, "\"{}\" -> \"{}\" [label=\"{}\"]", &parent_id, &id, self.path.last().unwrap()).unwrap();
+            writeln!(
+                self.writer,
+                "\"{}\" -> \"{}\" [label=\"{}\"]",
+                &parent_id,
+                &id,
+                self.path.last().unwrap()
+            )
+            .unwrap();
             if state.play.is_empty() {
-                writeln!(
-                    self.writer,
-                    "\"{}\" [shape=box]",
-                    &id,
-                )
-                .unwrap();    
+                writeln!(self.writer, "\"{}\" [shape=box]", &id,).unwrap();
             }
         }
     }
@@ -368,15 +370,15 @@ impl Observer for Dot {
         self.path.push(format!("{}", card.symbol()));
     }
 
-    fn child_exit(&mut self, card: Card) {
+    fn child_exit(&mut self, _card: Card) {
         self.path.pop();
     }
 
     fn update_table<PoC: PlayOfCards>(
         &mut self,
-        state: &PlayState<PoC>,
-        rel_mask: CardSet,
-        ab: AB,
+        _state: &PlayState<PoC>,
+        _rel_mask: CardSet,
+        _ab: AB,
     ) {
     }
 
@@ -391,12 +393,7 @@ impl Observer for Dot {
     fn max_tricks_cutoff(&mut self) {
         if self.search {
             let id = self.path.join(" ");
-            writeln!(
-                self.writer,
-                "\"{}\" [style=filled fillcolor=\"red\"]",
-                &id,
-            )
-            .unwrap();
+            writeln!(self.writer, "\"{}\" [style=filled fillcolor=\"red\"]", &id,).unwrap();
         }
     }
 
@@ -414,7 +411,7 @@ impl Observer for Dot {
 
     fn search_cutoff(&mut self) {}
 
-    fn search_finished(&mut self, init: &InitialPosition) {
+    fn search_finished(&mut self, _init: &InitialPosition) {
         writeln!(self.writer, "}}").unwrap();
         self.search = false;
     }
@@ -424,7 +421,7 @@ impl Observer for Dot {
         self.search = true;
     }
 
-    fn tt_hit<PoC: PlayOfCards>(&mut self, state: &PlayState<PoC>, rel_mask: CardSet, ab: AB) {}
+    fn tt_hit<PoC: PlayOfCards>(&mut self, _state: &PlayState<PoC>, _rel_mask: CardSet, _ab: AB) {}
 
     fn tt_lower_cutoff(&mut self) {
         if self.search {

@@ -1,7 +1,8 @@
 use std::{
     fmt::{Debug, Write},
     ops::{BitAnd, BitOr, Shl, Shr, Sub},
-    simd::{num::SimdUint, u64x4, Simd}, str::FromStr,
+    simd::{num::SimdUint, u64x4, Simd},
+    str::FromStr,
 };
 
 use regex::Regex;
@@ -605,7 +606,7 @@ impl CardSet {
     };
 
     // order of Suit values
-    pub(crate)  const SUITS: [CardSet; 4] = [Self::C, Self::D, Self::H, Self::S];
+    pub(crate) const SUITS: [CardSet; 4] = [Self::C, Self::D, Self::H, Self::S];
     const SUIT_MASKS: u64x4 =
         Simd::from_array([Self::C.mask, Self::D.mask, Self::H.mask, Self::S.mask]);
 
@@ -786,9 +787,11 @@ impl CardSet {
     fn contains(self, c: Card) -> bool {
         !(CardSet::from(c) & self).is_empty()
     }
-    
+
     pub(crate) fn without(self, other: CardSet) -> CardSet {
-        CardSet { mask: self.mask & !other.mask }
+        CardSet {
+            mask: self.mask & !other.mask,
+        }
     }
 }
 
@@ -1145,14 +1148,15 @@ impl Deal {
             self.get(Player::S).to_bpn_masked(mask)
         )
     }
-    
+
     pub(crate) fn add(&mut self, p: Player, card: Card) {
         let p = p.index();
         self.hands[p] |= CardSet::from(card).mask;
     }
 
     pub(crate) fn format_as_bpn(&self) -> String {
-        format!("{} {} {} {}",
+        format!(
+            "{} {} {} {}",
             &CardSet::from(self.hands[0]).to_bpn(),
             &CardSet::from(self.hands[1]).to_bpn(),
             &CardSet::from(self.hands[2]).to_bpn(),
