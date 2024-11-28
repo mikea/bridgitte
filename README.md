@@ -28,4 +28,3 @@ Important details:
 - Trumps (if any) are always Spades.
 - All cards are promoted after every trick
 - Cards are not removed from the deck until the full trick is played.
-
