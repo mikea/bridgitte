@@ -2,6 +2,8 @@
 name = "bridgitte"
 version = "0.1.0"
 edition = "2021"
+license = "GNU GPLv3"
+description = "Contract bridge double dummy solver"
 
 [dependencies]
 static_assertions = "1"
