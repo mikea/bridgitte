@@ -28,3 +28,15 @@ Important details:
 - Trumps (if any) are always Spades.
 - All cards are promoted after every trick
 - Cards are not removed from the deck until the full trick is played.
+
+## Performance
+
+As of Nov 2024 bridgitte is ~100 time slower than state of the art.
+It takes seconds to evaluate "fast" positions and minutes for
+"slow" ones.
+
+The following algorithm improvements will probably speed things up:
+
+- quick tricks is applied only at the beginning of the round
+- transposition table lookup is linear
+- there's no move ordering
