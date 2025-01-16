@@ -480,7 +480,6 @@ impl<I: Iterator<Item = SetItem>> Iterator for PlayIterator<I> {
                     if !in_seq {
                         return Some(next);
                     }
-                    continue;
                 }
                 None => return Some(next),
             }

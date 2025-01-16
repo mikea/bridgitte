@@ -83,16 +83,24 @@ impl From<&Deal> for Distr {
         let h = (deal & CardSet::H).count();
         let s = (deal & CardSet::S).count();
 
-        let c =
-            u64::from(c[3]) | u64::from(c[2]) << 4 | u64::from(c[1]) << 8 | u64::from(c[0]) << 12;
-        let d =
-            u64::from(d[3]) | u64::from(d[2]) << 4 | u64::from(d[1]) << 8 | u64::from(d[0]) << 12;
-        let h =
-            u64::from(h[3]) | u64::from(h[2]) << 4 | u64::from(h[1]) << 8 | u64::from(h[0]) << 12;
-        let s =
-            u64::from(s[3]) | u64::from(s[2]) << 4 | u64::from(s[1]) << 8 | u64::from(s[0]) << 12;
+        let c = u64::from(c[3])
+            | (u64::from(c[2]) << 4)
+            | (u64::from(c[1]) << 8)
+            | (u64::from(c[0]) << 12);
+        let d = u64::from(d[3])
+            | (u64::from(d[2]) << 4)
+            | (u64::from(d[1]) << 8)
+            | (u64::from(d[0]) << 12);
+        let h = u64::from(h[3])
+            | (u64::from(h[2]) << 4)
+            | (u64::from(h[1]) << 8)
+            | (u64::from(h[0]) << 12);
+        let s = u64::from(s[3])
+            | (u64::from(s[2]) << 4)
+            | (u64::from(s[1]) << 8)
+            | (u64::from(s[0]) << 12);
 
-        let distr = (c) | (d) << 16 | (h) << 32 | (s) << 48;
+        let distr = (c) | ((d) << 16) | ((h) << 32) | ((s) << 48);
         Distr { distr }
     }
 }
@@ -124,7 +132,7 @@ impl FromStr for Distr {
             s |= (s1.len() as u64) << ((3 - i) * 4);
         }
 
-        let distr = (c) | (d) << 16 | (h) << 32 | (s) << 48;
+        let distr = (c) | ((d) << 16) | ((h) << 32) | ((s) << 48);
         Ok(Distr { distr })
     }
 }
