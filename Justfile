@@ -11,7 +11,7 @@ run:
     time target/release/bridgitte analyze-deal --declarer e --strain d --stats "854.Q873.Q984.65 KQ32.T6.T72.AJ93 9.AJ542.J653.T87 AJT76.K9.AK.KQ42"
 
 clippy:
-    cargo clippy -- -D clippy::pedantic -A clippy::missing-panics-doc -A clippy::module_name_repetitions
+    cargo clippy -- -Dwarnings -D clippy::pedantic -A clippy::missing-panics-doc -A clippy::module_name_repetitions
 
 build:
     cargo build
