@@ -60,7 +60,7 @@ impl Suit {
     }
 
     unsafe fn from_mask(mask: u8) -> Self {
-        std::mem::transmute(mask)
+        unsafe { std::mem::transmute(mask) }
     }
 
     fn bit_index(self) -> usize {
@@ -376,7 +376,7 @@ impl Card {
     ];
 
     unsafe fn from_mask(mask: u8) -> Self {
-        std::mem::transmute(mask)
+        unsafe { std::mem::transmute(mask) }
     }
 
     fn new(value: Rank, suit: Suit) -> Self {
